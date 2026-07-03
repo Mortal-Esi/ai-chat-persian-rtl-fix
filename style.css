@@ -1,0 +1,29 @@
+/* اصلاح جهت و چیدمان متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini و NotebookLM */
+
+.prsn-rtl-fixed {
+  direction: rtl !important;
+  unicode-bidi: plain-text !important;
+  text-align: right !important;
+}
+
+/* لیست‌ها هم باید از راست شماره‌گذاری/بولت بشن */
+.prsn-rtl-fixed ol,
+.prsn-rtl-fixed ul {
+  direction: rtl !important;
+  unicode-bidi: plain-text !important;
+  padding-right: 1.5em;
+  padding-left: 0;
+}
+
+/* بلوک‌های کد همیشه باید LTR بمونن، حتی اگر داخل یک کانتینر RTL باشن */
+.prsn-rtl-fixed pre,
+.prsn-rtl-fixed code {
+  direction: ltr !important;
+  unicode-bidi: embed !important;
+  text-align: left !important;
+}
+
+/* جدول‌ها */
+.prsn-rtl-fixed table {
+  direction: rtl !important;
+}
