@@ -94,9 +94,9 @@ popup.html   → نمایش وضعیت افزونه
 
 ## 🤝 مشارکت | Contributing
 
-پول ریکوئست و ایشو خوش‌آمده! اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
+اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
 
-Pull requests and issues are welcome! If you spot any remaining layout glitches, please open an issue with a screenshot.
+If you spot any remaining layout glitches, please open an issue with a screenshot.
 
 ---
 
