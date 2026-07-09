@@ -1,29 +1,46 @@
 /* اصلاح جهت و چیدمان متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini و NotebookLM */
 
-.prsn-rtl-fixed {
+.prsn-rtl-fixed,
+.prsn-rtl-fixed[dir="rtl"] {
   direction: rtl !important;
-  unicode-bidi: plain-text !important;
+  unicode-bidi: isolate !important;
   text-align: right !important;
+}
+
+/* والد بلوکی (پاراگراف/دیو بیرونی که چند span تکه‌شده را در بر می‌گیرد).
+   selector با [dir="rtl"] تکرار شده تا specificity بالاتری نسبت به
+   استایل‌های framework (مثل labs-tailwind-* در NotebookLM) داشته باشد. */
+.prsn-rtl-block,
+.prsn-rtl-block[dir="rtl"] {
+  direction: rtl !important;
+  unicode-bidi: isolate !important;
+  text-align: right !important;
+  display: block;
 }
 
 /* لیست‌ها هم باید از راست شماره‌گذاری/بولت بشن */
 .prsn-rtl-fixed ol,
-.prsn-rtl-fixed ul {
+.prsn-rtl-fixed ul,
+.prsn-rtl-block ol,
+.prsn-rtl-block ul {
   direction: rtl !important;
-  unicode-bidi: plain-text !important;
+  unicode-bidi: isolate !important;
   padding-right: 1.5em;
   padding-left: 0;
 }
 
 /* بلوک‌های کد همیشه باید LTR بمونن، حتی اگر داخل یک کانتینر RTL باشن */
 .prsn-rtl-fixed pre,
-.prsn-rtl-fixed code {
+.prsn-rtl-fixed code,
+.prsn-rtl-block pre,
+.prsn-rtl-block code {
   direction: ltr !important;
   unicode-bidi: embed !important;
   text-align: left !important;
 }
 
 /* جدول‌ها */
-.prsn-rtl-fixed table {
+.prsn-rtl-fixed table,
+.prsn-rtl-block table {
   direction: rtl !important;
 }

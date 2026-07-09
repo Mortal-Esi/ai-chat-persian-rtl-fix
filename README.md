@@ -2,9 +2,9 @@
 
 # 🩹 AI Chat Persian RTL Fix
 
-**اصلاح خودکار جهت متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini و NotebookLM**
+**اصلاح خودکار جهت متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini، NotebookLM و Qwen Chat**
 
-*Automatically fixes broken Persian/Arabic text direction on Claude, ChatGPT, Gemini, and NotebookLM*
+*Automatically fixes broken Persian/Arabic text direction on Claude, ChatGPT, Gemini, NotebookLM, and Qwen Chat*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)](#-نصب--installation)
@@ -16,7 +16,7 @@
 
 ## 😩 مشکل چیه؟
 
-وقتی توی چت‌بات‌های هوش مصنوعی متن فارسی با کلمات انگلیسی مثل `API`، `n8n`، `Cron` قاطی میشه، مرورگر جهت متن رو اشتباه تشخیص می‌ده و کلمات/ترتیب بهم می‌ریزه. این افزونه این مشکل رو **به‌صورت کاملاً خودکار** روی چهار پلتفرم پرکاربرد حل می‌کنه — نصب کن، فراموشش کن.
+وقتی توی چت‌بات‌های هوش مصنوعی متن فارسی با کلمات انگلیسی مثل `API`، `n8n`، `Cron` قاطی میشه، مرورگر جهت متن رو اشتباه تشخیص می‌ده و کلمات/ترتیب بهم می‌ریزه. این افزونه این مشکل رو **به‌صورت کاملاً خودکار** روی پنج پلتفرم پرکاربرد حل می‌کنه — نصب کن، فراموشش کن.
 
 <div align="center">
 
@@ -28,7 +28,7 @@
 
 ## 🇬🇧 The Problem
 
-When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in AI chat interfaces, the browser misjudges text direction, scrambling word order and layout. This extension fixes it automatically across four popular platforms — install once, forget about it.
+When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in AI chat interfaces, the browser misjudges text direction, scrambling word order and layout. This extension fixes it automatically across five popular platforms — install once, forget about it.
 
 ## 🌐 پلتفرم‌های پشتیبانی‌شده | Supported Platforms
 
@@ -38,6 +38,7 @@ When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in
 | 🟢 ChatGPT | chatgpt.com |
 | 🔵 Gemini | gemini.google.com |
 | 📘 NotebookLM | notebooklm.google.com |
+| 🟣 Qwen Chat | chat.qwen.ai |
 
 ---
 
@@ -66,7 +67,7 @@ When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in
 3. گوشه بالا-راست، **Developer mode** رو روشن کن
 4. روی **Load unpacked** کلیک کن و پوشه پروژه رو انتخاب کن
 5. یکی از این صفحات رو رفرش کن — تمام! ✅
-   [Claude](https://claude.ai) · [ChatGPT](https://chatgpt.com) · [Gemini](https://gemini.google.com) · [NotebookLM](https://notebooklm.google.com)
+   [Claude](https://claude.ai) · [ChatGPT](https://chatgpt.com) · [Gemini](https://gemini.google.com) · [NotebookLM](https://notebooklm.google.com) · [Qwen Chat](https://chat.qwen.ai)
 
 ---
 
@@ -79,7 +80,8 @@ When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in
 3. کلاس CSS با `direction: rtl` و `unicode-bidi: plain-text` بهش اضافه می‌کنه
 4. بلوک‌های `<code>` و `<pre>` رو مستثنی می‌کنه تا کد همیشه چپ‌به‌راست بمونه
 5. با `MutationObserver`، محتوای جدیدی که به‌صورت پویا لود میشه (مثل پاسخ‌های در حال استریم) رو هم زیر نظر می‌گیره
-6. باکس‌های تایپ `contenteditable` (نوع رایج در ChatGPT/Gemini/NotebookLM) رو هم پوشش می‌ده
+6. باکس‌های تایپ `contenteditable` (نوع رایج در ChatGPT/Gemini/NotebookLM/Qwen) رو هم پوشش می‌ده
+7. هر عنصر در هر بار اسکن دوباره ارزیابی می‌شه (نه فقط یک‌بار) تا محتوای جایگزین‌شده (نه فقط اضافه‌شده) هم درست دیده بشه؛ یک اسکن دوره‌ای سبک هم به‌عنوان محافظ اضافه شده
 
 ```
 content.js   → منطق تشخیص و اصلاح جهت متن
@@ -92,7 +94,7 @@ popup.html   → نمایش وضعیت افزونه
 
 ## 🤝 مشارکت | Contributing
 
-اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
+پول ریکوئست و ایشو خوش‌آمده! اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
 
 Pull requests and issues are welcome! If you spot any remaining layout glitches, please open an issue with a screenshot.
 
