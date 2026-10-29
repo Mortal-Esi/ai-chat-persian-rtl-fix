@@ -15,7 +15,8 @@
   direction: rtl !important;
   unicode-bidi: isolate !important;
   text-align: right !important;
-  display: block;
+  /* display عمداً تغییر داده نمی‌شود: این کلاس روی td/th/li هم می‌نشیند و
+     display:block جدول را می‌شکند (سلول‌ها زیر هم می‌افتند) و بولت لیست را حذف می‌کند */
 }
 
 /* لیست‌ها هم باید از راست شماره‌گذاری/بولت بشن */
