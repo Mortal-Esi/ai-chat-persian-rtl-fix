@@ -39,8 +39,29 @@
   text-align: left !important;
 }
 
-/* جدول‌ها */
+/* جدول‌ها: فقط متن سلول‌ها راست‌چین می‌شود؛ روی خود <table>/<tr> هرگز
+   direction:rtl اعمال نمی‌کنیم، چون مرورگر با آن ترتیب فیزیکی ستون‌ها را
+   هم برعکس می‌کند. برای جدول‌های سالم بی‌مشکل است، اما وقتی یک ردیف سلول
+   کم دارد (مثلاً رج‌های ادغام‌نشده)، این برعکس‌سازی فیزیکی باعث می‌شود
+   سلول‌ها به ستون اشتباه بچسبند و کل جدول به‌هم بریزد. */
 .prsn-rtl-fixed table,
 .prsn-rtl-block table {
+  text-align: right !important;
+}
+
+.prsn-rtl-fixed table td,
+.prsn-rtl-fixed table th,
+.prsn-rtl-block table td,
+.prsn-rtl-block table th {
+  text-align: right !important;
+  unicode-bidi: isolate !important;
+}
+
+/* خط‌های فارسی‌محور داخل بلوک کد (مثلاً کامنت یا شبه‌کد فارسی).
+   فقط جهت و چیدمان همان خط را عوض می‌کند، نه کل بلوک کد. */
+.prsn-rtl-code-line {
   direction: rtl !important;
+  unicode-bidi: isolate !important;
+  text-align: right !important;
+  display: block;
 }

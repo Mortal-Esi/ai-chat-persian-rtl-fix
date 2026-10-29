@@ -2,9 +2,9 @@
 
 # 🩹 AI Chat Persian RTL Fix
 
-**اصلاح خودکار جهت متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini، NotebookLM و Qwen Chat**
+**اصلاح خودکار جهت متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini، NotebookLM، Qwen Chat و Claude Science**
 
-*Automatically fixes broken Persian/Arabic text direction on Claude, ChatGPT, Gemini, NotebookLM, and Qwen Chat*
+*Automatically fixes broken Persian/Arabic text direction on Claude, ChatGPT, Gemini, NotebookLM, Qwen Chat, and Claude Science*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)](#-نصب--installation)
@@ -16,7 +16,7 @@
 
 ## 😩 مشکل چیه؟
 
-وقتی توی چت‌بات‌های هوش مصنوعی متن فارسی با کلمات انگلیسی مثل `API`، `n8n`، `Cron` قاطی میشه، مرورگر جهت متن رو اشتباه تشخیص می‌ده و کلمات/ترتیب بهم می‌ریزه. این افزونه این مشکل رو **به‌صورت کاملاً خودکار** روی پنج پلتفرم پرکاربرد حل می‌کنه — نصب کن، فراموشش کن.
+وقتی توی چت‌بات‌های هوش مصنوعی متن فارسی با کلمات انگلیسی مثل `API`، `n8n`، `Cron` قاطی میشه، مرورگر جهت متن رو اشتباه تشخیص می‌ده و کلمات/ترتیب بهم می‌ریزه. این افزونه این مشکل رو **به‌صورت کاملاً خودکار** روی شش پلتفرم پرکاربرد حل می‌کنه — نصب کن، فراموشش کن.
 
 <div align="center">
 
@@ -28,7 +28,7 @@
 
 ## 🇬🇧 The Problem
 
-When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in AI chat interfaces, the browser misjudges text direction, scrambling word order and layout. This extension fixes it automatically across five popular platforms — install once, forget about it.
+When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in AI chat interfaces, the browser misjudges text direction, scrambling word order and layout. This extension fixes it automatically across six popular platforms — install once, forget about it.
 
 ## 🌐 پلتفرم‌های پشتیبانی‌شده | Supported Platforms
 
@@ -39,6 +39,9 @@ When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in
 | 🔵 Gemini | gemini.google.com |
 | 📘 NotebookLM | notebooklm.google.com |
 | 🟣 Qwen Chat | chat.qwen.ai |
+| 🧪 Claude Science | localhost (اپ دسکتاپ، رابط کاربری از سرور محلی سرو می‌شود) |
+
+> ⚠️ **نکته درباره Claude Science**: چون این اپ رابط کاربری‌اش را از یک سرور محلی (`localhost`) با پورت متغیر سرو می‌کند، افزونه روی **هر صفحه‌ای که با `http://localhost/*` باز شود** فعال می‌شود (نه فقط Claude Science). هیچ داده‌ای جمع‌آوری یا ارسال نمی‌شود، فقط CSS/جهت متن اعمال می‌گردد.
 
 ---
 
@@ -67,7 +70,7 @@ When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in
 3. گوشه بالا-راست، **Developer mode** رو روشن کن
 4. روی **Load unpacked** کلیک کن و پوشه پروژه رو انتخاب کن
 5. یکی از این صفحات رو رفرش کن — تمام! ✅
-   [Claude](https://claude.ai) · [ChatGPT](https://chatgpt.com) · [Gemini](https://gemini.google.com) · [NotebookLM](https://notebooklm.google.com) · [Qwen Chat](https://chat.qwen.ai)
+   [Claude](https://claude.ai) · [ChatGPT](https://chatgpt.com) · [Gemini](https://gemini.google.com) · [NotebookLM](https://notebooklm.google.com) · [Qwen Chat](https://chat.qwen.ai) · Claude Science (اپ دسکتاپ)
 
 ---
 
@@ -94,9 +97,9 @@ popup.html   → نمایش وضعیت افزونه
 
 ## 🤝 مشارکت | Contributing
 
-اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
+پول ریکوئست و ایشو خوش‌آمده! اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
 
-If you spot any remaining layout glitches, please open an issue with a screenshot.
+Pull requests and issues are welcome! If you spot any remaining layout glitches, please open an issue with a screenshot.
 
 ---
 

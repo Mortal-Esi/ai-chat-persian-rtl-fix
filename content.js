@@ -59,11 +59,87 @@
     return false;
   }
 
+  // تگ‌های ساختاری جدول که هرگز نباید dir="rtl" یا direction:rtl بگیرند،
+  // چون این باعث می‌شود مرورگر ترتیب فیزیکی ستون‌ها را برعکس کند و در
+  // جدول‌هایی که ردیف‌هایشان تعداد سلول نامساوی دارد، چیدمان را خراب کند.
+  // فقط متن داخل سلول‌ها (td/th) باید راست‌چین شود، نه خود جدول/ردیف.
+  const TABLE_STRUCTURAL_TAGS = new Set([
+    "TABLE",
+    "THEAD",
+    "TBODY",
+    "TFOOT",
+    "TR",
+  ]);
+
   function shouldSkip(el) {
     if (!el || !el.tagName) return true;
     if (SKIP_TAGS.has(el.tagName)) return true;
+    if (TABLE_STRUCTURAL_TAGS.has(el.tagName)) return true;
     if (el.closest && el.closest("pre, code")) return true;
     return false;
+  }
+
+  // --- پردازش مخصوص بلوک‌های کد ---
+  // داخل ``` معمولاً شبه‌کد یا کامنت‌های فارسی هم دیده می‌شود
+  // (مثلاً «// یک کاری انجام بده»). چون کل بلوک باید ساختار کد را حفظ کند
+  // (تورفتگی، ترتیب کاراکترها) نمی‌توان کل <pre><code> را RTL کرد، اما
+  // می‌توان هر خط را جدا بررسی کرد: اگر خط عمدتاً فارسی است، آن خط را
+  // در یک span با dir="rtl" پیچید بدون آن‌که خطوط کد خالص لمس شوند.
+  const CODE_MARK_CLASS = "prsn-rtl-code-line";
+  const CODE_PROCESSED_ATTR = "data-prsn-code-checked";
+
+  function isMostlyRTLLine(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return false;
+    const rtlMatches = trimmed.match(
+      /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/g
+    );
+    const rtlCount = rtlMatches ? rtlMatches.length : 0;
+    // اگر حداقل چند کاراکتر فارسی/عربی در خط باشد، خط را فارسی‌محور در نظر بگیر
+    return rtlCount >= 2;
+  }
+
+  function processCodeBlock(codeEl) {
+    if (!codeEl || codeEl.getAttribute(CODE_PROCESSED_ATTR) === codeEl.textContent.length + "") {
+      // اگر طول متن از آخرین بار تغییر نکرده، دوباره پردازش نکن (بهینه‌سازی سبک)
+      return;
+    }
+
+    // هر <div> یا خط داخل بلوک کد را پیدا کن. اکثر هایلایترها هر خط را
+    // در یک عنصر جدا (span/div) می‌گذارند؛ اگر نه، از خود متن با \n جدا می‌کنیم.
+    const lineContainers = codeEl.querySelectorAll(":scope > div, :scope > span");
+
+    if (lineContainers.length > 0) {
+      lineContainers.forEach((lineEl) => {
+        const text = lineEl.textContent || "";
+        if (isMostlyRTLLine(text)) {
+          if (lineEl.getAttribute("dir") !== "rtl") {
+            lineEl.setAttribute("dir", "rtl");
+          }
+          lineEl.classList.add(CODE_MARK_CLASS);
+        } else if (lineEl.classList.contains(CODE_MARK_CLASS)) {
+          lineEl.removeAttribute("dir");
+          lineEl.classList.remove(CODE_MARK_CLASS);
+        }
+      });
+    }
+
+    codeEl.setAttribute(CODE_PROCESSED_ATTR, codeEl.textContent.length + "");
+  }
+
+  function scanCodeBlocks(root) {
+    if (!root || root.nodeType !== Node.ELEMENT_NODE) return;
+
+    if (root.matches && root.matches("pre code, code")) {
+      processCodeBlock(root);
+    }
+
+    const codeEls = root.querySelectorAll("pre code, pre");
+    codeEls.forEach((el) => {
+      // اگر خود <pre> بدون <code> داخلش باشد هم پوشش بده
+      const target = el.querySelector("code") || el;
+      processCodeBlock(target);
+    });
   }
 
   // بعضی سایت‌ها (مثل NotebookLM) یک پاراگراف را به چند <span> جدا
@@ -126,6 +202,9 @@
 
     const elements = root.querySelectorAll(TARGET_SELECTOR);
     elements.forEach(processElement);
+
+    // بلوک‌های کد را جدا و خط‌به‌خط بررسی کن
+    scanCodeBlocks(root);
   }
 
   // اسکن اولیه صفحه
