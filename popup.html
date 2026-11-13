@@ -1,56 +1,35 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>Claude RTL Fix</title>
-  <style>
-    body {
-      font-family: Tahoma, "Segoe UI", sans-serif;
-      width: 260px;
-      padding: 16px;
-      background: #1a1a1a;
-      color: #f0f0f0;
-      direction: rtl;
-      text-align: right;
-    }
-    h1 {
-      font-size: 15px;
-      margin: 0 0 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    p {
-      font-size: 13px;
-      line-height: 1.7;
-      color: #cfcfcf;
-      margin: 0 0 10px;
-    }
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: #6ee7a0;
-      background: #16241c;
-      border-radius: 6px;
-      padding: 8px 10px;
-    }
-    .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #6ee7a0;
-      flex-shrink: 0;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>متن فارسی، مرتب‌تر</title>
+<link rel="stylesheet" href="popup.css">
+<script src="popup.js" defer></script>
 </head>
-<body>
-  <h1>🩹 اصلاح متن فارسی هوش مصنوعی</h1>
-  <p>این افزونه به‌صورت خودکار جهت متن‌های فارسی/عربی مخلوط با کلمات انگلیسی رو در Claude، ChatGPT، Gemini و NotebookLM اصلاح می‌کنه.</p>
-  <div class="status">
-    <span class="dot"></span>
-    <span>فعال روی این سایت</span>
-  </div>
-</body>
+<body><main>
+<header class="brand">
+<img src="icons/logo.svg" width="52" height="52" alt="" class="logo">
+<div><p class="eyebrow" dir="ltr">PERSIAN RTL FIX</p><h1>متن فارسی، مرتب‌تر.</h1></div>
+</header>
+<p class="intro">فارسی و انگلیسی، کنار هم؛ با جهت درست و خواندن راحت‌تر.</p>
+<section class="status" id="status" data-state="loading" aria-labelledby="status-title" aria-live="polite">
+<span class="status-dot" aria-hidden="true"></span>
+<div><h2 id="status-title">در حال بررسی صفحه…</h2><bdi id="site" dir="ltr" hidden></bdi><p id="status-detail">دامنهٔ این تب با فهرست افزونه مقایسه می‌شود.</p></div>
+</section>
+<section class="preview" aria-labelledby="preview-title">
+<div class="preview-heading"><h2 id="preview-title">هر زبان، سر جای خودش</h2><span class="mini-mark" aria-hidden="true">↔</span></div>
+<p class="sample">برای اتصال به <code dir="ltr">API</code>، فایل <code dir="ltr">config.json</code> را باز کن.</p>
+<div class="sample-rule"></div><p class="preview-note">جهت مستقل برای کد و عبارت‌های لاتین</p>
+</section>
+<section class="how" aria-labelledby="how-title">
+<h2 id="how-title">بی‌نیاز از تنظیمات</h2>
+<p>در سایت‌های پشتیبانی‌شده، اصلاح جهت متن خودکار انجام می‌شود. بعد از نصب یا به‌روزرسانی، صفحه را دوباره بارگذاری کن.</p>
+<div class="platforms" dir="ltr" aria-label="سایت‌های پشتیبانی‌شده"><span>Claude</span><span>ChatGPT</span><span>Gemini</span><span>NotebookLM</span><span>Qwen</span></div>
+<p class="local-note">صفحات <bdi dir="ltr">HTTP localhost</bdi> در Chrome هم در فهرست‌اند.</p>
+</section>
+<footer><a href="https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix#installation" target="_blank" rel="noopener noreferrer">راهنما و گزارش اشکال <span aria-hidden="true">↗</span></a><span class="version" id="version" dir="ltr"></span></footer>
+<p class="privacy">پردازش محلی · بدون ارسال متن گفتگو</p>
+</main></body>
 </html>

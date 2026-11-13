@@ -1,5 +1,6 @@
 <div align="center" dir="ltr">
-  <h1>🩹 AI Chat Persian RTL Fix</h1>
+  <p><img src="icons/logo.svg" width="96" height="96" alt="Persian RTL Fix logo"></p>
+  <h1>AI Chat Persian RTL Fix</h1>
   <p dir="rtl">افزونهٔ Chrome برای بهبود نمایش متن فارسی و عربی در کنار عبارت‌های انگلیسی در رابط‌های وب چت هوش مصنوعی</p>
   <p>Improve mixed Persian/Arabic and English text layout in AI chat web interfaces.</p>
   <p>
@@ -54,8 +55,8 @@
   <li><strong>کد و مرزهای جهت:</strong> محتوای <code dir="ltr">pre</code> و <code dir="ltr">code</code> بازنویسی نمی‌شود. کد داخل بلوک اصلاح‌شده سبک چپ‌به‌راست مستقل می‌گیرد. زیرشاخه‌های <code dir="ltr">bdi</code> و <code dir="ltr">bdo</code> نیز از پردازش کنار گذاشته می‌شوند.</li>
   <li><strong>جدول:</strong> سلول‌های جدول دارای بلوک فارسی راست‌چین می‌شوند، بدون تغییر مستقیم جهت خود جدول. عدد و واحد لاتینِ موجود در فهرست کد، همراه با توان علمی اختیاری، در سلول فارسی با عنصر <code dir="ltr">bdi</code> ایزوله می‌شوند. تشخیص به یک گرهٔ متنی محدود است؛ عدد و واحدی که بین چند عنصر قالب‌بندی تقسیم شده‌اند، یک عبارت واحد تشخیص داده نمی‌شوند.</li>
   <li><strong>ویرایشگر:</strong> عناصر <code dir="ltr">contenteditable</code> می‌توانند کلاس جهت بگیرند، اما متن داخل ویرایشگر با عناصر کمکی بازنویسی نمی‌شود. عناصر <code dir="ltr">textarea</code> و <code dir="ltr">input</code> از پردازش کنار گذاشته شده‌اند؛ بنابراین همهٔ باکس‌های تایپ پوشش داده نمی‌شوند.</li>
-  <li><strong>پردازش محلی:</strong> کد فعلی افزونه داده‌ای جمع‌آوری، ارسال یا ذخیره نمی‌کند. تغییرات شامل کلاس‌های CSS و، در بعضی سلول‌های جدول، افزودن عناصر <code dir="ltr">bdi</code> به DOM است. مجوز <code dir="ltr">storage</code> در manifest اعلام شده، اما کد فعلی از آن استفاده نمی‌کند.</li>
-  <li><strong>پنجرهٔ افزونه:</strong> popup فقط متن معرفی و یک پیام ثابت نمایش می‌دهد؛ پیام «فعال روی این سایت» حاصل بررسی واقعی دامنه یا اجرای اسکریپت نیست.</li>
+  <li><strong>پردازش محلی:</strong> کد فعلی افزونه داده‌ای جمع‌آوری، ارسال یا ذخیره نمی‌کند. تغییرات شامل کلاس‌های CSS و، در بعضی سلول‌های جدول، افزودن عناصر <code dir="ltr">bdi</code> به DOM است. مجوز <code dir="ltr">activeTab</code> برای خواندن نشانی تب هنگام کلیک روی آیکون افزونه استفاده می‌شود؛ دسترسی دائمی به تاریخچهٔ مرورگر درخواست نمی‌شود.</li>
+  <li><strong>پنجرهٔ افزونه:</strong> popup دامنهٔ تب فعلی را با فهرست manifest مقایسه می‌کند و وضعیت پشتیبانی، نمونهٔ متن ترکیبی، نسخه و لینک راهنما را نشان می‌دهد. این بررسی دامنه است و اجرای موفق اسکریپت یا اصلاح همهٔ متن‌های صفحه را تأیید نمی‌کند.</li>
 </ul>
 
 <h2 id="installation">نصب در Chrome</h2>
@@ -89,7 +90,7 @@
   <li><a href="content.js"><code dir="ltr">content.js</code></a>: تشخیص متن، مدیریت تغییرات و ایزوله‌سازی عبارت‌های عدد و واحد.</li>
   <li><a href="style.css"><code dir="ltr">style.css</code></a>: سبک‌های جهت و تراز متن، جدول و فهرست.</li>
   <li><a href="manifest.json"><code dir="ltr">manifest.json</code></a>: تنظیمات افزونه و دامنه‌های فعال.</li>
-  <li><a href="popup.html"><code dir="ltr">popup.html</code></a>: معرفی افزونه و پیام ثابت؛ بدون تشخیص وضعیت واقعی صفحه.</li>
+  <li><a href="popup.html"><code dir="ltr">popup.html</code></a>: رابط پنجرهٔ افزونه؛ سبک‌ها در <a href="popup.css"><code dir="ltr">popup.css</code></a> و بررسی دامنه در <a href="popup.js"><code dir="ltr">popup.js</code></a>.</li>
   <li><a href="tests/README.md"><code dir="ltr">tests/</code></a>: نمونه‌های مرورگری، تست‌های رگرسیون و روش اجرای آن‌ها.</li>
 </ul>
 
@@ -100,7 +101,8 @@
 </div>
 
 <div dir="ltr">
-<pre><code>node tests/run-browser.cjs</code></pre>
+<pre><code>node --test tests/popup.test.cjs
+node tests/run-browser.cjs</code></pre>
 <p>For a custom Chrome/Chromium path:</p>
 <pre><code>CHROME_BIN=/path/to/chrome node tests/run-browser.cjs</code></pre>
 </div>
@@ -129,13 +131,13 @@
 
 <p>This Chrome extension adjusts eligible Persian/Arabic text blocks in the web interfaces listed above. It applies direction and alignment classes, and inserts LTR <code>bdi</code> elements around recognized quantities in Persian table cells. Scientific notation such as <code>1e-3 nm</code> is handled as one run. It does not guarantee correct layout for every host page or mixed-language case.</p>
 
-<p>Code content and existing <code>bdi</code>/<code>bdo</code> subtrees are excluded from rewriting. Eligible <code>contenteditable</code> elements can receive direction classes, but editor text is not wrapped. <code>textarea</code> and <code>input</code> are excluded. Quantities split across multiple text nodes are not combined. The current code does not collect, transmit, or persist data; the declared <code>storage</code> permission is unused.</p>
+<p>Code content and existing <code>bdi</code>/<code>bdo</code> subtrees are excluded from rewriting. Eligible <code>contenteditable</code> elements can receive direction classes, but editor text is not wrapped. <code>textarea</code> and <code>input</code> are excluded. Quantities split across multiple text nodes are not combined. The current code does not collect, transmit, or persist data; the <code>activeTab</code> permission reads the active tab URL when you click the extension icon.</p>
 
-<p>The <code>http://localhost/*</code> match applies to local pages opened in Chrome, including a Claude Science web interface if served there. It does not establish support inside the desktop application. HTTPS localhost and <code>127.0.0.1</code> are not included in the current manifest. The popup message is static and does not verify whether the extension is active on the current page.</p>
+<p>The <code>http://localhost/*</code> match applies to local pages opened in Chrome, including a Claude Science web interface if served there. It does not establish support inside the desktop application. HTTPS localhost and <code>127.0.0.1</code> are not included in the current manifest. The popup compares the active tab domain with the manifest and shows its support status, the extension version, a mixed-text example, and a help link. Domain support does not verify successful content-script execution.</p>
 
 <p><strong>Install:</strong> download and extract the ZIP, or clone this repository. Open <code>chrome://extensions</code>, enable <strong>Developer mode</strong>, choose <strong>Load unpacked</strong>, and select the folder directly containing <code>manifest.json</code>. Reload the target page. After a code update, reload both the extension and the page.</p>
 
-<p><strong>Test:</strong> run <code>node tests/run-browser.cjs</code> from the repository root with Node.js and Chrome installed. Set <code>CHROME_BIN</code> for a custom browser path. No npm dependencies are required. See <a href="tests/README.md">the test guide</a>. Local fixtures do not verify live host integrations or extension injection.</p>
+<p><strong>Test:</strong> run <code>node --test tests/popup.test.cjs</code> for popup status and icon checks, and <code>node tests/run-browser.cjs</code> from the repository root with Node.js and Chrome installed. Set <code>CHROME_BIN</code> for a custom browser path. No npm dependencies are required. See <a href="tests/README.md">the test guide</a>. Local fixtures do not verify live host integrations or extension injection.</p>
 
 <p><strong>Report a bug:</strong> include the host site, Chrome version, reproducible sample text, expected and actual behavior, and an optional screenshot or minimal HTML fixture in <a href="https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix/issues">Issues</a>. Remove personal information before sharing.</p>
 

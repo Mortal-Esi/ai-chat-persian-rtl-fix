@@ -1,5 +1,16 @@
 # Browser regression tests
 
+For popup status and icon validation, run:
+
+```sh
+node --test tests/popup.test.cjs
+```
+
+These tests use the actual popup script with a simulated Chrome API. They cover
+supported/unsupported domains, deceptive hostnames, missing tab access, and PNG
+icon dimensions. They do not verify Chrome permission grants or content-script
+execution. The popup reports domain support only.
+
 Run with Node.js and an installed Chrome or Chromium:
 
 ```sh
