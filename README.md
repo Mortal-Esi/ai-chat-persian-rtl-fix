@@ -1,117 +1,144 @@
-<div align="center">
+<div align="center" dir="ltr">
+  <h1>🩹 AI Chat Persian RTL Fix</h1>
+  <p dir="rtl">افزونهٔ Chrome برای بهبود نمایش متن فارسی و عربی در کنار عبارت‌های انگلیسی در رابط‌های وب چت هوش مصنوعی</p>
+  <p>Improve mixed Persian/Arabic and English text layout in AI chat web interfaces.</p>
+  <p>
+    <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+    <a href="#installation"><img src="https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&amp;logoColor=white" alt="Chrome extension — installation"></a>
+    <a href="manifest.json"><img src="https://img.shields.io/badge/Manifest-V3-brightgreen" alt="Manifest V3"></a>
+  </p>
+  <p><a href="#installation">نصب</a> · <a href="#testing">تست‌ها</a> · <a href="#english">English guide</a></p>
+</div>
 
-# 🩹 AI Chat Persian RTL Fix
+<div dir="rtl">
 
-**اصلاح خودکار جهت متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini، NotebookLM، Qwen Chat و Claude Science**
+<h2 id="problem">مشکل و هدف افزونه</h2>
 
-*Automatically fixes broken Persian/Arabic text direction on Claude, ChatGPT, Gemini, NotebookLM, Qwen Chat, and Claude Science*
+<p>در بعضی رابط‌های چت، جهت پایه یا سبک‌های صفحه باعث می‌شود متن فارسی همراه با عبارت‌هایی مثل <code dir="ltr">API</code>، <code dir="ltr">n8n</code> و مسیر فایل‌ها نامرتب دیده شود. افزونه بلوک‌های دارای حروف فارسی یا عربی را شناسایی می‌کند و جهت و تراز آن‌ها را تغییر می‌دهد. نتیجه به ساختار و سبک‌های سایت میزبان بستگی دارد؛ اصلاح همهٔ حالت‌های متن دوزبانه تضمین نمی‌شود.</p>
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&logoColor=white)](#-نصب--installation)
-[![Manifest V3](https://img.shields.io/badge/Manifest-V3-brightgreen)](manifest.json)
+<h3>نمونه‌های قابل بررسی</h3>
+
+<p>به‌جای تصویر یا جدول نمایشیِ «قبل و بعد»، نمونه‌های واقعی زیر در <a href="tests/mixed-text.html">تست متن ترکیبی</a> و <a href="tests/regressions.html">تست رگرسیون</a> قابل اجرا هستند:</p>
+
+<ul>
+  <li>جملهٔ فارسی همراه با مسیر <code dir="ltr">results/validation.tsv</code> و علامت دونقطه: جهت جمله راست‌به‌چپ و جهت کد مستقل و چپ‌به‌راست می‌ماند.</li>
+  <li>عبارت <code dir="ltr">50 nm</code> در سلول فارسی: عدد و واحد شناخته‌شده در یک عبارت چپ‌به‌راست قرار می‌گیرند.</li>
+  <li>عبارت علمی <code dir="ltr">1e-3 nm</code>: علامت توان، عدد و واحد با هم ایزوله می‌شوند؛ متن قابل کپی و نشانه‌گذاری حفظ می‌شود.</li>
+</ul>
+
+<p>این‌ها رفتارهای مورد انتظار و آزموده‌شده در نمونه‌های محلی‌اند، نه تصویر تأییدشده از همهٔ سایت‌های میزبان.</p>
+
+<h2 id="platforms">دامنه‌های فعال</h2>
+
+<p>فهرست زیر از <a href="manifest.json">manifest.json</a> گرفته شده است. وجود دامنه در این فهرست به معنی تنظیم اجرای اسکریپت است؛ سازگاری با تمام نسخه‌ها و بخش‌های آن سایت را تضمین نمی‌کند.</p>
+
+<table dir="ltr">
+  <thead><tr><th>Service</th><th>URL pattern</th></tr></thead>
+  <tbody>
+    <tr><td>Claude</td><td><code>https://claude.ai/*</code></td></tr>
+    <tr><td>ChatGPT</td><td><code>https://chatgpt.com/*</code><br><code>https://chat.openai.com/*</code></td></tr>
+    <tr><td>Gemini</td><td><code>https://gemini.google.com/*</code></td></tr>
+    <tr><td>NotebookLM</td><td><code>https://notebooklm.google.com/*</code></td></tr>
+    <tr><td>Qwen Chat</td><td><code>https://chat.qwen.ai/*</code></td></tr>
+    <tr><td>Local web pages</td><td><code>http://localhost/*</code></td></tr>
+  </tbody>
+</table>
+
+<p><strong>دربارهٔ localhost و Claude Science:</strong> افزونه روی صفحات HTTP در <code dir="ltr">localhost</code> که داخل Chrome باز می‌شوند نیز فعال است؛ این دسترسی به برنامهٔ خاصی محدود نیست. اگر رابط وب Claude Science از چنین نشانی‌ای در Chrome باز شود، مشمول همین الگو است. این تنظیم به‌تنهایی به معنی نصب یا اجرای افزونه داخل اپ دسکتاپ نیست و پشتیبانی داخل آن اپ تأیید نشده است. الگوهای <code dir="ltr">https://localhost/*</code> و <code dir="ltr">http://127.0.0.1/*</code> در manifest فعلی وجود ندارند.</p>
+
+<h2 id="features">عملکرد و محدودیت‌ها</h2>
+
+<ul>
+  <li><strong>اجرای خودکار:</strong> پس از بارگذاری صفحه، متن اسکن می‌شود و تغییرات متن و عناصر جدید با <code dir="ltr">MutationObserver</code> بررسی می‌شوند؛ دکمهٔ روشن/خاموش وجود ندارد.</li>
+  <li><strong>جهت متن:</strong> بلوک‌های واجد شرایط با حروف فارسی یا عربی کلاس راست‌به‌چپ می‌گیرند. عدد فارسی و علامت درصد به‌تنهایی نشانهٔ جملهٔ فارسی نیستند.</li>
+  <li><strong>کد و مرزهای جهت:</strong> محتوای <code dir="ltr">pre</code> و <code dir="ltr">code</code> بازنویسی نمی‌شود. کد داخل بلوک اصلاح‌شده سبک چپ‌به‌راست مستقل می‌گیرد. زیرشاخه‌های <code dir="ltr">bdi</code> و <code dir="ltr">bdo</code> نیز از پردازش کنار گذاشته می‌شوند.</li>
+  <li><strong>جدول:</strong> سلول‌های جدول دارای بلوک فارسی راست‌چین می‌شوند، بدون تغییر مستقیم جهت خود جدول. عدد و واحد لاتینِ موجود در فهرست کد، همراه با توان علمی اختیاری، در سلول فارسی با عنصر <code dir="ltr">bdi</code> ایزوله می‌شوند. تشخیص به یک گرهٔ متنی محدود است؛ عدد و واحدی که بین چند عنصر قالب‌بندی تقسیم شده‌اند، یک عبارت واحد تشخیص داده نمی‌شوند.</li>
+  <li><strong>ویرایشگر:</strong> عناصر <code dir="ltr">contenteditable</code> می‌توانند کلاس جهت بگیرند، اما متن داخل ویرایشگر با عناصر کمکی بازنویسی نمی‌شود. عناصر <code dir="ltr">textarea</code> و <code dir="ltr">input</code> از پردازش کنار گذاشته شده‌اند؛ بنابراین همهٔ باکس‌های تایپ پوشش داده نمی‌شوند.</li>
+  <li><strong>پردازش محلی:</strong> کد فعلی افزونه داده‌ای جمع‌آوری، ارسال یا ذخیره نمی‌کند. تغییرات شامل کلاس‌های CSS و، در بعضی سلول‌های جدول، افزودن عناصر <code dir="ltr">bdi</code> به DOM است. مجوز <code dir="ltr">storage</code> در manifest اعلام شده، اما کد فعلی از آن استفاده نمی‌کند.</li>
+  <li><strong>پنجرهٔ افزونه:</strong> popup فقط متن معرفی و یک پیام ثابت نمایش می‌دهد؛ پیام «فعال روی این سایت» حاصل بررسی واقعی دامنه یا اجرای اسکریپت نیست.</li>
+</ul>
+
+<h2 id="installation">نصب در Chrome</h2>
+
+<p>این راهنما برای نصب دستی نسخهٔ مخزن به‌صورت <span dir="ltr">unpacked</span> است.</p>
+
+<ol>
+  <li>از منوی <strong dir="ltr">Code → Download ZIP</strong> مخزن را دانلود و فایل ZIP را استخراج کنید؛ یا با دستور زیر مخزن را کلون کنید.</li>
+</ol>
 
 </div>
 
----
+<div dir="ltr">
+<pre><code>git clone https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix.git</code></pre>
+</div>
 
-## 😩 مشکل چیه؟
+<div dir="rtl">
 
-وقتی توی چت‌بات‌های هوش مصنوعی متن فارسی با کلمات انگلیسی مثل `API`، `n8n`، `Cron` قاطی میشه، مرورگر جهت متن رو اشتباه تشخیص می‌ده و کلمات/ترتیب بهم می‌ریزه. این افزونه این مشکل رو **به‌صورت کاملاً خودکار** روی شش پلتفرم پرکاربرد حل می‌کنه — نصب کن، فراموشش کن.
+<ol start="2">
+  <li>در Chrome نشانی <code dir="ltr">chrome://extensions</code> را باز کنید.</li>
+  <li>گزینهٔ <strong dir="ltr">Developer mode</strong> را فعال کنید.</li>
+  <li>روی <strong dir="ltr">Load unpacked</strong> کلیک کنید و پوشه‌ای را انتخاب کنید که فایل <code dir="ltr">manifest.json</code> مستقیماً داخل آن است؛ فایل ZIP یا پوشهٔ والد را انتخاب نکنید.</li>
+  <li>صفحهٔ موردنظر در یکی از دامنه‌های بالا را دوباره بارگذاری کنید.</li>
+</ol>
 
-<div align="center">
+<p><strong>پس از به‌روزرسانی کد:</strong> در صفحهٔ افزونه‌ها روی دکمهٔ بارگذاری مجدد همین افزونه کلیک کنید و سپس تب سایت را هم دوباره بارگذاری کنید.</p>
 
-| قبل ❌ | بعد ✅ |
-|:---:|:---:|
-| متن به‌هم‌ریخته و جهت اشتباه | متن مرتب، خوانا، و راست‌به‌چپ |
+<h2 id="files">فایل‌های اصلی</h2>
+
+<ul>
+  <li><a href="content.js"><code dir="ltr">content.js</code></a>: تشخیص متن، مدیریت تغییرات و ایزوله‌سازی عبارت‌های عدد و واحد.</li>
+  <li><a href="style.css"><code dir="ltr">style.css</code></a>: سبک‌های جهت و تراز متن، جدول و فهرست.</li>
+  <li><a href="manifest.json"><code dir="ltr">manifest.json</code></a>: تنظیمات افزونه و دامنه‌های فعال.</li>
+  <li><a href="popup.html"><code dir="ltr">popup.html</code></a>: معرفی افزونه و پیام ثابت؛ بدون تشخیص وضعیت واقعی صفحه.</li>
+  <li><a href="tests/README.md"><code dir="ltr">tests/</code></a>: نمونه‌های مرورگری، تست‌های رگرسیون و روش اجرای آن‌ها.</li>
+</ul>
+
+<h2 id="testing">اجرای تست‌ها</h2>
+
+<p>از ریشهٔ مخزن، با Node.js و Chrome یا Chromium نصب‌شده اجرا کنید. نصب بستهٔ npm لازم نیست.</p>
 
 </div>
 
-## 🇬🇧 The Problem
+<div dir="ltr">
+<pre><code>node tests/run-browser.cjs</code></pre>
+<p>For a custom Chrome/Chromium path:</p>
+<pre><code>CHROME_BIN=/path/to/chrome node tests/run-browser.cjs</code></pre>
+</div>
 
-When Persian/Arabic text mixes with English words (like `API`, `n8n`, `Cron`) in AI chat interfaces, the browser misjudges text direction, scrambling word order and layout. This extension fixes it automatically across six popular platforms — install once, forget about it.
+<div dir="rtl">
 
-## 🌐 پلتفرم‌های پشتیبانی‌شده | Supported Platforms
+<p>فرمان دوم برای پوسته‌های سازگار با POSIX، مثل bash و zsh است. تست‌ها اسکریپت و CSS واقعی را روی فایل‌های محلی در Chrome بدون پنجره اجرا می‌کنند. هر دو نمونه باید <code dir="ltr">PASS</code> گزارش کنند؛ شکست تست باعث خروج با کد غیرصفر می‌شود. برای اجرای دستی نیز می‌توانید فایل‌های HTML داخل پوشهٔ تست را در Chrome باز کنید. جزئیات در <a href="tests/README.md">راهنمای تست‌ها</a> آمده است.</p>
 
-| پلتفرم | آدرس |
-|---|---|
-| 🟠 Claude | claude.ai |
-| 🟢 ChatGPT | chatgpt.com |
-| 🔵 Gemini | gemini.google.com |
-| 📘 NotebookLM | notebooklm.google.com |
-| 🟣 Qwen Chat | chat.qwen.ai |
-| 🧪 Claude Science | localhost (اپ دسکتاپ، رابط کاربری از سرور محلی سرو می‌شود) |
+<p>تست محلی جای بررسی نصب افزونه و رفتار آن در سایت‌های زنده را نمی‌گیرد. تغییر ساختار یا سبک‌های سایت میزبان ممکن است به اصلاحات بعدی نیاز داشته باشد.</p>
 
-> ⚠️ **نکته درباره Claude Science**: چون این اپ رابط کاربری‌اش را از یک سرور محلی (`localhost`) با پورت متغیر سرو می‌کند، افزونه روی **هر صفحه‌ای که با `http://localhost/*` باز شود** فعال می‌شود (نه فقط Claude Science). هیچ داده‌ای جمع‌آوری یا ارسال نمی‌شود، فقط CSS/جهت متن اعمال می‌گردد.
+<h2 id="contributing">مشارکت و گزارش اشکال</h2>
 
----
+<p>برای گزارش مشکل، در <a href="https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix/issues">Issues</a> نام سایت و نسخهٔ Chrome، متن نمونهٔ قابل بازتولید، نتیجهٔ مورد انتظار و نتیجهٔ فعلی را بنویسید. در صورت امکان تصویر و یک نمونهٔ کوچک HTML هم اضافه کنید و اطلاعات شخصی را حذف کنید. برای تغییر کد، تست مرتبط را اجرا و در صورت نیاز نمونهٔ رگرسیون اضافه کنید.</p>
 
-## ✨ ویژگی‌ها | Features
+<h2 id="license">مجوز</h2>
 
-- 🔄 **کاملاً خودکار** — نیازی به کلیک یا تنظیم نداره
-- ⚡ **سبک و سریع** — پس از بارگذاری، فقط بخش‌های تغییرکرده بررسی می‌شن
-- 🧠 **هوشمند** — بلوک‌های کد رو دست‌نخورده نگه می‌داره (LTR می‌مونن)
-- 🔴 **زنده (Live)** — با `MutationObserver` محتوای جدید (پاسخ‌های استریم‌شده) رو هم پوشش می‌ده
-- 🔒 **حریم خصوصی کامل** — هیچ داده‌ای جمع‌آوری، ارسال، یا ذخیره نمی‌شه؛ فقط CSS محلی روی صفحه اعمال می‌شه
-- 🎯 **دامنه‌های فعال** — فهرست بالا و الگوهای manifest را ببینید
-- ⌨️ **باکس تایپ رو هم پوشش می‌ده** — متن در حال نوشتن خودت هم درست نمایش داده می‌شه
+<p>این پروژه با <a href="LICENSE">مجوز MIT</a> ارائه شده است؛ استفاده، تغییر و توزیع مطابق شرایط همان مجوز مجاز است.</p>
 
----
+</div>
 
-## 📦 نصب | Installation
+<hr>
 
-> این افزونه فعلاً روی Chrome Web Store منتشر نشده و باید به‌صورت دستی (unpacked) نصب بشه.
-> Not yet published on the Chrome Web Store — install manually for now.
+<div dir="ltr">
 
-1. این ریپازیتوری رو دانلود کن (**Code → Download ZIP**) یا کلون کن:
-   ```bash
-   git clone https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix.git
-   ```
-2. کروم رو باز کن و برو به `chrome://extensions`
-3. گوشه بالا-راست، **Developer mode** رو روشن کن
-4. روی **Load unpacked** کلیک کن و پوشه پروژه رو انتخاب کن
-5. یکی از این صفحات رو رفرش کن — تمام! ✅
-   [Claude](https://claude.ai) · [ChatGPT](https://chatgpt.com) · [Gemini](https://gemini.google.com) · [NotebookLM](https://notebooklm.google.com) · [Qwen Chat](https://chat.qwen.ai) · Claude Science (اپ دسکتاپ)
+<h2 id="english">English guide</h2>
 
----
+<p>This Chrome extension adjusts eligible Persian/Arabic text blocks in the web interfaces listed above. It applies direction and alignment classes, and inserts LTR <code>bdi</code> elements around recognized quantities in Persian table cells. Scientific notation such as <code>1e-3 nm</code> is handled as one run. It does not guarantee correct layout for every host page or mixed-language case.</p>
 
-## 🛠 چطور کار می‌کنه | How It Works
+<p>Code content and existing <code>bdi</code>/<code>bdo</code> subtrees are excluded from rewriting. Eligible <code>contenteditable</code> elements can receive direction classes, but editor text is not wrapped. <code>textarea</code> and <code>input</code> are excluded. Quantities split across multiple text nodes are not combined. The current code does not collect, transmit, or persist data; the declared <code>storage</code> permission is unused.</p>
 
-افزونه با یک content script ساده:
+<p>The <code>http://localhost/*</code> match applies to local pages opened in Chrome, including a Claude Science web interface if served there. It does not establish support inside the desktop application. HTTPS localhost and <code>127.0.0.1</code> are not included in the current manifest. The popup message is static and does not verify whether the extension is active on the current page.</p>
 
-- متن هر بلوک همراه با قالب‌بندی درون‌خطی آن بررسی می‌شود. عدد فارسی یا علامت درصد به‌تنهایی نشانهٔ یک جملهٔ فارسی نیست.
-- در جدول فارسی، سرستون‌ها و مقدارها راست‌چین می‌شوند. عدد و واحد لاتین شناخته‌شده در یک گرهٔ متنی، مثل `50 nm`، در سلول‌های فارسی به‌صورت یک عبارت چپ‌به‌راست نمایش داده می‌شوند.
-- کد درون جملهٔ فارسی جهت مستقل دارد. افزونه محتوای بلوک‌های کد یا متن داخل ویرایشگر را بازنویسی نمی‌کند.
-- بعد از اسکن اولیه، تغییرات متن و عناصر جدید با `MutationObserver` بررسی می‌شوند.
+<p><strong>Install:</strong> download and extract the ZIP, or clone this repository. Open <code>chrome://extensions</code>, enable <strong>Developer mode</strong>, choose <strong>Load unpacked</strong>, and select the folder directly containing <code>manifest.json</code>. Reload the target page. After a code update, reload both the extension and the page.</p>
 
-```
-content.js   → منطق تشخیص و اصلاح جهت متن
-style.css    → کلاس‌های RTL/LTR
-manifest.json → پیکربندی افزونه (Manifest V3)
-popup.html   → نمایش وضعیت افزونه
-```
+<p><strong>Test:</strong> run <code>node tests/run-browser.cjs</code> from the repository root with Node.js and Chrome installed. Set <code>CHROME_BIN</code> for a custom browser path. No npm dependencies are required. See <a href="tests/README.md">the test guide</a>. Local fixtures do not verify live host integrations or extension injection.</p>
 
----
+<p><strong>Report a bug:</strong> include the host site, Chrome version, reproducible sample text, expected and actual behavior, and an optional screenshot or minimal HTML fixture in <a href="https://github.com/Mortal-Esi/ai-chat-persian-rtl-fix/issues">Issues</a>. Remove personal information before sharing.</p>
 
-## 🤝 مشارکت | Contributing
-
-پول ریکوئست و ایشو خوش‌آمده! اگه جایی هنوز متن به‌هم‌ریخته دیدی، لطفاً یک issue با اسکرین‌شات باز کن.
-
-Pull requests and issues are welcome! If you spot any remaining layout glitches, please open an issue with a screenshot.
-
----
-
-## 📄 مجوز | License
-
-MIT — رایگان برای استفاده، تغییر، و توزیع.
-
-MIT — free to use, modify, and distribute.
-
----
-
-<div align="center">
-
-ساخته‌شده با ❤️ برای جامعه فارسی‌زبان کاربران هوش مصنوعی
-
-Made with ❤️ for the Persian-speaking AI chat community
+<p>Licensed under <a href="LICENSE">MIT</a>.</p>
 
 </div>
