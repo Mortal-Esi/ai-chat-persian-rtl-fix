@@ -2,12 +2,13 @@
   "use strict";
 
   const block = "p, li, h1, h2, h3, h4, h5, h6, td, th, blockquote, label, div, [contenteditable]";
-  const skip = "pre, code, script, style, textarea, input, svg, math, .katex, .MathJax, mjx-container, button, [role=button]";
+  const skip = "pre, code, script, style, textarea, input, svg, math, .katex, .MathJax, mjx-container, button, [role=button], bdi, bdo";
   const boundary = block + ", table, ul, ol, section, article, nav, form, header, footer, aside, main";
   const rtl = "prsn-rtl-block";
   const arabicLetter = /(?=\p{L})\p{Script=Arabic}/u;
-  // A quantity is one LTR run even when the digits precede the Latin unit.
-  const quantity = /(?<![\p{L}\p{N}_])[−+-]?\p{Nd}+(?:[.,٫٬]\p{Nd}+)*[ \t\u00a0\u202f]+(?:nm|µm|μm|mm|cm|km|m|mg|kg|g|mL|µL|μL|L|mM|µM|μM|nM|Hz|kHz|MHz|GHz|ms|s|°C)(?![\p{L}\p{N}_])/gu;
+  // Keep the mantissa, exponent sign, and unit in one LTR run.
+  // Reject partial matches inside identifiers or malformed signed numbers.
+  const quantity = /(?<![\p{L}\p{N}_.+−-])[−+-]?\p{Nd}+(?:[.,٫٬]\p{Nd}+)*(?:[eE][−+-]?\p{Nd}+)?[ \t\u00a0\u202f]+(?:nm|µm|μm|mm|cm|km|m|mg|kg|g|mL|µL|μL|L|mM|µM|μM|nM|Hz|kHz|MHz|GHz|ms|s|°C)(?![\p{L}\p{N}_])/gu;
 
   function inspect(el) {
     if (el.closest(skip)) return;
@@ -23,7 +24,7 @@
           if (cell) textNodes.push(child);
         } else if (child.nodeType === Node.ELEMENT_NODE) {
           if (child.matches(boundary)) hasBlock = true;
-          else if (!child.matches(skip + ", bdi, bdo")) visit(child);
+          else if (!child.matches(skip)) visit(child);
         }
       }
     }
@@ -95,3 +96,4 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start, { once: true });
   else start();
 })();
+

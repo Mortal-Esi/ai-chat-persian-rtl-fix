@@ -1,0 +1,66 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Bidi regressions</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../content.js"></script>
+<p>طبق <code>results/validation.tsv</code>:</p>
+<bdi dir="ltr"><span contenteditable="false" id="isolated">API: فارسی (v2).</span></bdi>
+<bdo dir="ltr"><span contenteditable="false" id="override">API: فارسی (v2).</span></bdo>
+<table><tr><td id="scientific">دوز 1e-3 nm، سپس 2E+4 Hz.</td></tr>
+<tr><td id="formatted">دوز <strong>−2.5e−3 mM</strong>، <code>1e-3 nm</code>.</td></tr>
+<tr><td id="identifier">شناسه API1e-3 nm و x_50 nm.</td></tr>
+<tr><td contenteditable="true" id="editor">دوز 1e-3 nm.</td></tr></table>
+<output>RUNNING</output>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const failures = [];
+  const check = (ok, name) => { if (!ok) failures.push(name); };
+  const update = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  for (const id of ["isolated", "override"]) {
+    check(!document.getElementById(id).classList.contains("prsn-rtl-block"),
+      id + ": preserve explicit bidi boundary");
+  }
+  check(JSON.stringify([...document.querySelectorAll("#scientific bdi")].map(el => el.textContent))
+    === JSON.stringify(["1e-3 nm", "2E+4 Hz"]), "isolate whole scientific quantities");
+  check(document.querySelector("#formatted strong bdi")?.textContent === "−2.5e−3 mM",
+    "preserve bold scientific quantity");
+  check(!document.querySelector("#formatted code bdi, #identifier bdi, #editor bdi"),
+    "leave code, identifiers, and editable DOM intact");
+  const cell = document.getElementById("scientific");
+  for (const quantity of ["−2.5e−3 mM", "50 nm", "1e-3 nm"]) {
+    const expected = "دوز (" + quantity + ")، سپس API.";
+    cell.textContent = expected;
+    await update();
+    check(cell.textContent === expected, "preserve punctuation and copyable text");
+    check(cell.querySelectorAll("bdi").length === 1
+      && cell.querySelector("bdi").textContent === quantity, "streamed quantity");
+    const node = cell.querySelector("bdi")?.firstChild;
+    if (node) {
+      let previous = -Infinity;
+      for (let i = 0; i < node.length; i++) {
+        const range = document.createRange();
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        const x = range.getBoundingClientRect().x;
+        check(x > previous, "scientific quantity glyph order");
+        previous = x;
+      }
+    }
+    cell.append(document.createTextNode(" "));
+    await update();
+    check(cell.querySelectorAll("bdi").length === 1 && !cell.querySelector("bdi bdi"),
+      "repeat inspection does not nest isolates");
+  }
+  const isolated = document.getElementById("isolated");
+  isolated.firstChild.data = "API: متن تازه (v3).";
+  await update();
+  check(!isolated.classList.contains("prsn-rtl-block"), "preserve boundary after text update");
+  const added = document.createElement("span");
+  added.contentEditable = "false";
+  added.textContent = "API: تازه (v4).";
+  isolated.parentElement.append(added);
+  await update();
+  check(!added.classList.contains("prsn-rtl-block"), "preserve dynamically inserted boundary descendants");
+  document.querySelector("output").textContent = failures.length ? "FAIL: " + failures.join("; ") : "PASS";
+});
+</script>
