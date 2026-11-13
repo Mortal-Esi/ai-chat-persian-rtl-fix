@@ -1,11 +1,25 @@
-:root { color-scheme: light; font-family: Tahoma, "Segoe UI", sans-serif; color: #173630; background: #f5f7f2; font-synthesis: none; }
+@font-face {
+  font-family: Shabnam;
+  src: url("fonts/Shabnam.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: Shabnam;
+  src: url("fonts/Shabnam-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+:root { color-scheme: light; font-family: Shabnam, sans-serif; color: #173630; background: #f5f7f2; font-synthesis: none; }
 * { box-sizing: border-box; }
 body { width: 360px; margin: 0; }
 main { padding: 20px 22px 14px; }
 .brand { display: flex; align-items: center; gap: 12px; }
 .logo { flex: none; border-radius: 15px; }
 .eyebrow { margin: 0 0 7px; font: 600 10px/1.2 "Segoe UI", sans-serif; letter-spacing: 1.7px; text-align: right; color: #50756a; }
-h1 { margin: 0; font-size: 19px; line-height: 1.65; letter-spacing: -.6px; }
+h1 { margin: 0; font-size: 20px; line-height: 1.65; letter-spacing: normal; }
 h2 { margin: 0; font-size: 12px; line-height: 1.8; }
 .intro { margin: 12px 0 14px; font-size: 11px; line-height: 1.9; color: #587068; }
 .status { display: flex; gap: 10px; padding: 13px 14px; background: #e5eee6; border: 1px solid #d3e2d4; border-radius: 13px; }
