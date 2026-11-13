@@ -1,0 +1,58 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Mixed-text browser regression checks</title>
+<link rel="stylesheet" href="../style.css">
+<script src="../content.js"></script>
+<main>
+  <p id="mixed" dir="auto"><strong>طبق</strong> <code>results/validation.tsv</code>:</p>
+  <table dir="rtl">
+    <tr><th>شاخص</th><th id="unit">50 nm، دوز بالا</th></tr>
+    <tr><td>Pearson correlation</td><td id="num">0.871</td></tr>
+    <tr><td>تطابق</td><td id="pct">۹۵٫۴٪</td></tr>
+  </table>
+  <pre><code><span>کامنت فارسی</span></code></pre>
+  <div contenteditable="true">متن API</div>
+  <ul><li><p>توضیح</p></li></ul>
+</main>
+<output>Running…</output>
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  const get = selector => document.querySelector(selector);
+  const css = selector => getComputedStyle(get(selector));
+  const nextUpdate = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
+  function check(ok, label) {
+    if (!ok) throw Error(label);
+  }
+  try {
+    check(css("#mixed").direction === "rtl" && css("#mixed code").direction === "ltr", "Inline code");
+    check(css("#num").direction === "ltr" && css("#pct").direction === "ltr", "Numeric direction");
+    check(css("#num").textAlign === "right" && css("th").textAlign === "right", "Column alignment");
+    check(css("td").display === "table-cell" && css("table").direction === "rtl", "Native table layout");
+    check(css("pre span").display === "inline", "Syntax tokens");
+    check(css("ul").direction === "rtl" && css("[contenteditable]").direction === "rtl", "List and editor");
+    for (const quantity of ["50 nm", "500 nm"]) {
+      const expected = quantity + "، دوز بالا";
+      get("#unit").textContent = expected;
+      await nextUpdate();
+      check(get("#unit").textContent === expected, "Copyable text");
+      const node = get("#unit bdi").firstChild;
+      let previous = -Infinity;
+      for (let i = 0; i < quantity.length; i++) {
+        const range = new Range();
+        range.setStart(node, i);
+        range.setEnd(node, i + 1);
+        const x = range.getBoundingClientRect().x;
+        check(x > previous, "Number and unit glyph order");
+        previous = x;
+      }
+    }
+    get("#mixed strong").firstChild.data = "File";
+    await nextUpdate();
+    check(css("#mixed").direction === "ltr" && get("#mixed").dir === "auto", "Restored host direction");
+    get("output").textContent = "PASS";
+  } catch (error) {
+    get("output").textContent = "FAIL — " + error.message;
+    throw error;
+  }
+});
+</script>

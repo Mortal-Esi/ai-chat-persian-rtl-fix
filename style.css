@@ -1,68 +1,32 @@
-/* اصلاح جهت و چیدمان متن فارسی/عربی مخلوط با انگلیسی در Claude، ChatGPT، Gemini و NotebookLM */
-
-.prsn-rtl-fixed,
-.prsn-rtl-fixed[dir="rtl"] {
+.prsn-rtl-block {
   direction: rtl !important;
   unicode-bidi: isolate !important;
   text-align: right !important;
 }
 
-/* والد بلوکی (پاراگراف/دیو بیرونی که چند span تکه‌شده را در بر می‌گیرد).
-   selector با [dir="rtl"] تکرار شده تا specificity بالاتری نسبت به
-   استایل‌های framework (مثل labs-tailwind-* در NotebookLM) داشته باشد. */
-.prsn-rtl-block,
-.prsn-rtl-block[dir="rtl"] {
-  direction: rtl !important;
-  unicode-bidi: isolate !important;
-  text-align: right !important;
-  /* display عمداً تغییر داده نمی‌شود: این کلاس روی td/th/li هم می‌نشیند و
-     display:block جدول را می‌شکند (سلول‌ها زیر هم می‌افتند) و بولت لیست را حذف می‌کند */
-}
-
-/* لیست‌ها هم باید از راست شماره‌گذاری/بولت بشن */
-.prsn-rtl-fixed ol,
-.prsn-rtl-fixed ul,
-.prsn-rtl-block ol,
-.prsn-rtl-block ul {
-  direction: rtl !important;
-  unicode-bidi: isolate !important;
-  padding-right: 1.5em;
-  padding-left: 0;
-}
-
-/* بلوک‌های کد همیشه باید LTR بمونن، حتی اگر داخل یک کانتینر RTL باشن */
-.prsn-rtl-fixed pre,
-.prsn-rtl-fixed code,
-.prsn-rtl-block pre,
-.prsn-rtl-block code {
+.prsn-rtl-block :is(pre, code) {
   direction: ltr !important;
-  unicode-bidi: embed !important;
+  unicode-bidi: isolate !important;
+}
+
+.prsn-rtl-block pre {
   text-align: left !important;
 }
 
-/* جدول‌ها: فقط متن سلول‌ها راست‌چین می‌شود؛ روی خود <table>/<tr> هرگز
-   direction:rtl اعمال نمی‌کنیم، چون مرورگر با آن ترتیب فیزیکی ستون‌ها را
-   هم برعکس می‌کند. برای جدول‌های سالم بی‌مشکل است، اما وقتی یک ردیف سلول
-   کم دارد (مثلاً رج‌های ادغام‌نشده)، این برعکس‌سازی فیزیکی باعث می‌شود
-   سلول‌ها به ستون اشتباه بچسبند و کل جدول به‌هم بریزد. */
-.prsn-rtl-fixed table,
-.prsn-rtl-block table {
+/* Align each cell to the same physical edge without changing column order. */
+table:has(> :is(thead, tbody, tfoot) > tr > :is(th, td) .prsn-rtl-block,
+          > :is(thead, tbody, tfoot) > tr > .prsn-rtl-block)
+  > :is(thead, tbody, tfoot) > tr > :is(td, th) {
   text-align: right !important;
 }
 
-.prsn-rtl-fixed table td,
-.prsn-rtl-fixed table th,
-.prsn-rtl-block table td,
-.prsn-rtl-block table th {
-  text-align: right !important;
-  unicode-bidi: isolate !important;
+:is(ol, ul):has(> li.prsn-rtl-block, > li > p.prsn-rtl-block) {
+  direction: rtl;
+  padding-inline-start: 1.5em;
+  padding-inline-end: 0;
 }
 
-/* خط‌های فارسی‌محور داخل بلوک کد (مثلاً کامنت یا شبه‌کد فارسی).
-   فقط جهت و چیدمان همان خط را عوض می‌کند، نه کل بلوک کد. */
-.prsn-rtl-code-line {
-  direction: rtl !important;
+.prsn-number {
+  direction: ltr !important;
   unicode-bidi: isolate !important;
-  text-align: right !important;
-  display: block;
 }
