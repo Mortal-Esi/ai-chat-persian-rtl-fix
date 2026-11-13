@@ -8,7 +8,7 @@
     <a href="#installation"><img src="https://img.shields.io/badge/Chrome-Extension-4285F4?logo=googlechrome&amp;logoColor=white" alt="Chrome extension — installation"></a>
     <a href="manifest.json"><img src="https://img.shields.io/badge/Manifest-V3-brightgreen" alt="Manifest V3"></a>
   </p>
-  <p><a href="#installation">نصب</a> · <a href="#testing">تست‌ها</a> · <a href="#english">English guide</a></p>
+  <p><a href="https://mortal-esi.github.io/ai-chat-persian-rtl-fix/">صفحهٔ معرفی و دموی قبل و بعد</a> · <a href="#installation">نصب</a> · <a href="#testing">تست‌ها</a> · <a href="#english">English guide</a></p>
 </div>
 
 <div dir="rtl">

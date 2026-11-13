@@ -1,0 +1,32 @@
+.prsn-rtl-block {
+  direction: rtl !important;
+  unicode-bidi: isolate !important;
+  text-align: right !important;
+}
+
+.prsn-rtl-block :is(pre, code) {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
+.prsn-rtl-block pre {
+  text-align: left !important;
+}
+
+/* Align each cell to the same physical edge without changing column order. */
+table:has(> :is(thead, tbody, tfoot) > tr > :is(th, td) .prsn-rtl-block,
+          > :is(thead, tbody, tfoot) > tr > .prsn-rtl-block)
+  > :is(thead, tbody, tfoot) > tr > :is(td, th) {
+  text-align: right !important;
+}
+
+:is(ol, ul):has(> li.prsn-rtl-block, > li > p.prsn-rtl-block) {
+  direction: rtl;
+  padding-inline-start: 1.5em;
+  padding-inline-end: 0;
+}
+
+.prsn-number {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
